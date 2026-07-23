@@ -12,11 +12,10 @@ branding:
 inputs:
   attic-endpoint:
     description: >
-      Attic endpoint; pass secrets.ATTIC_ENDPOINT. Leave empty (as it is on
-      fork PRs, which get no secrets) to skip publishing — pulling still works,
-      both caches are public to read.
+      Attic endpoint. The default is the Logos cache; override only for
+      testing against a different Attic deployment.
     required: false
-    default: ''
+    default: 'https://cache.nix.logos.co'
   attic-token-ci:
     description: >
       Token for the ci cache; pass secrets.ATTIC_TOKEN_CI (repo-wide). Used
