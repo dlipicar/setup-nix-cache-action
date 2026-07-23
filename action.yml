@@ -26,10 +26,10 @@ inputs:
   attic-token-public:
     description: >
       Token for the public cache; pass secrets.ATTIC_TOKEN_PUBLIC. It only
-      exists in the public-cache environment, so give the calling job
-      `environment: ${{ github.ref == 'refs/heads/master' && 'public-cache' || '' }}`
-      — outside that environment the secret resolves to empty and master
-      pushes are skipped rather than failing.
+      exists in the public-cache environment, so the calling job must enter
+      that environment on master (see README for the environment expression)
+      — outside it the secret resolves to empty and master pushes are
+      skipped rather than failing.
     required: false
     default: ''
   cache:
