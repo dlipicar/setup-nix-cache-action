@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  smoke-test:
+    name: smoke test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      # No attic secrets in this repo: exercises the pull-only path — install
+      # Nix, configure the substituters, skip publishing.
+      - name: Run the action (pull-only)
+        uses: ./
+
+      - name: Substituters are configured
+        run: |
+          nix config show substituters | tee /dev/stderr \
+            | grep -q 'cache.nix.logos.co/public'
+          nix config show substituters | grep -q 'cache.nix.logos.co/ci'
+
+      - name: Nix builds
+        run: nix run nixpkgs#hello
+
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: experimental-features = nix-command flakes
+      - run: nix run nixpkgs#actionlint -- .github/workflows/ci.yml
