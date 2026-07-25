@@ -80,3 +80,12 @@ The cache signing keys are baked into this action (and served live at
 `https://cache.nix.logos.co/_api/v1/cache-config/<cache>`). When infra
 rotates them, update them here and every repo referencing `@v1` picks the
 change up on its next run; only `flake.nix` copies need separate PRs.
+
+## License
+
+Licensed and distributed under either of
+
+- MIT license: [LICENSE-MIT](LICENSE-MIT) or https://opensource.org/licenses/MIT
+- Apache License, Version 2.0: [LICENSE-APACHE](LICENSE-APACHE) or https://www.apache.org/licenses/LICENSE-2.0
+
+at your option. These files may not be copied, modified, or distributed except according to those terms.
