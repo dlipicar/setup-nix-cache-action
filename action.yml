@@ -94,8 +94,11 @@ runs:
 
     # Publishing only; reading is covered by the substituters above. Runs as a
     # post step at the end of the job, pushing the store paths the job built.
+    # The cache is an optimisation: if the Attic server is unreachable, login
+    # fails here, and the job must carry on without publishing.
     - name: Setup Attic push
       if: steps.select.outputs.token != '' && inputs.attic-endpoint != ''
+      continue-on-error: true
       uses: ryanccn/attic-action@v0.5.0
       with:
         endpoint: ${{ inputs.attic-endpoint }}
